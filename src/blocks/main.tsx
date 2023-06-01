@@ -2,7 +2,9 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as React from 'react'
-import playlist from './static/tracks'
+// import playlist from './static/tracks'
+
+interface track { text: string, author: string, album: string, time: string, trackTitle: string }
 function Nav (): JSX.Element {
   return (
         <nav className='main__nav nav'>
@@ -24,7 +26,8 @@ function Nav (): JSX.Element {
         </nav>
   )
 }
-function RenderTrack (text: string, author: string, album: string, time: string, title: string): JSX.Element {
+function RenderTrack (props: track): JSX.Element {
+  const { text, author, album, time, trackTitle } = props
   return (
             <div className="playlist__item">
                 <div className="playlist__track track">
@@ -35,7 +38,7 @@ function RenderTrack (text: string, author: string, album: string, time: string,
                             </svg>
                         </div>
                         <div className="track__title-text">
-                            <a className="track__title-link" href="http://">{text} <span className="track__title-span">{title}</span></a>
+                            <a className="track__title-link" href="http://">{text} <span className="track__title-span">{trackTitle}</span></a>
                         </div>
                     </div>
                     <div className="track__author">
@@ -83,10 +86,9 @@ function CenterBlock (): JSX.Element {
                 </div>
                 <div className="content__playlist playlist">
                     {
-                        playlist.map((item) => {
-                          const { text, author, album, time, trackTitle } = item
+                        window.res.map((item: track) => {
                           return (
-                            RenderTrack(text, author, album, time, trackTitle)
+                            RenderTrack(item)
                           )
                         })
                     }

@@ -5,3 +5,11 @@ declare module '*.svg' {
   const content: any
   export default content
 }
+
+interface responceTrack { text: string, author: string, album: string, time: string, trackTitle: string }
+
+type track = responceTrack[]
+
+declare interface Window {
+  res: track
+}

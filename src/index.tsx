@@ -7,10 +7,14 @@ import reportWebVitals from './reportWebVitals'
 const root = ReactDOM.createRoot(
   document.querySelector('.wrapper') as HTMLElement
 )
-root.render(
-  <React.StrictMode>
-    <Container/>
-  </React.StrictMode>
-)
+
+void fetch(location.href + 'static/tracks.json').then(async res => { return await res.json() }).then(res => {
+  window.res = res
+  root.render(
+    <React.StrictMode>
+      <Container/>
+    </React.StrictMode>
+  )
+})
 
 reportWebVitals()
