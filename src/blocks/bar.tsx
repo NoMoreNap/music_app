@@ -37,15 +37,15 @@ function BarContent (): JSX.Element {
 
                             <div className="player__track-play track-play">
                                 <div className="track-play__contain">
-                                    <div className="track-play__image">
+                                    <div className="track-play__image loading">
                                         <svg className="track-play__svg">
                                             <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
                                         </svg>
                                     </div>
-                                    <div className="track-play__author">
-                                        <a className="track-play__author-link" href="http://">Ты та...</a>
+                                    <div className="track-play__author loading">
+                                        <a className="track-play__author-link" href="http://">Ты та..</a>
                                     </div>
-                                    <div className="track-play__album">
+                                    <div className="track-play__album loading">
                                         <a className="track-play__album-link" href="http://">Баста</a>
                                     </div>
                                 </div>

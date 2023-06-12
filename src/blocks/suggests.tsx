@@ -3,6 +3,7 @@ import * as React from 'react'
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
 import playlist from '../static/tracks'
+import geners from '../static/geners'
 
 function AuthorList (): JSX.Element {
   const authors = playlist.map(item => item.author)
@@ -14,10 +15,7 @@ function AuthorList (): JSX.Element {
     })
     target.classList.add('active')
   }
-  return (<div className='filter__annotation' style={{
-    position: 'absolute',
-    top: 'calc(100% + 10px)'
-  }}>
+  return (<div className='filter__annotation'>
     <SimpleBar style={{ maxHeight: '100%' } } scrollbarMaxSize={65} autoHide={false} classNames={{ track: 'simplebar-track', scrollbar: 'simplebar-scrollbar' }}>
      <ul className='filter__annotation-list' onClick={cooseItem}>
         {authors.map((item: string) => {
@@ -29,29 +27,6 @@ function AuthorList (): JSX.Element {
 }
 
 function GenreList (): JSX.Element {
-  const geners = [
-    'Rock',
-    'Pop',
-    'Rap & Hip-Hop',
-    'Easy Listening',
-    'Dance & House',
-    'Instrumental',
-    'Metal',
-    'Alternative',
-    'Dubstep',
-    'Jazz & Blues',
-    'Drum & Bass',
-    'Trance',
-    'Chanson',
-    'Ethnic',
-    'Acoustic & Vocal',
-    'Reggae',
-    'Classical',
-    'Indie Pop',
-    'Speech',
-    'Electropop & Disco',
-    'Other'
-  ]
   const cooseItem = (event: React.MouseEvent): void => {
     const target = event.target as HTMLElement
     const anyTargets = document.querySelectorAll('.filter__annotation-item')
@@ -60,10 +35,7 @@ function GenreList (): JSX.Element {
     })
     target.classList.add('active')
   }
-  return (<div className='filter__annotation' style={{
-    position: 'absolute',
-    top: 'calc(100% + 10px)'
-  }}>
+  return (<div className='filter__annotation'>
     <SimpleBar style={{ maxHeight: '100%' } } scrollbarMaxSize={65} autoHide={false} classNames={{ track: 'simplebar-track', scrollbar: 'simplebar-scrollbar' }}>
      <ul className='filter__annotation-list' onClick={cooseItem}>
         {geners.map((item: string) => {

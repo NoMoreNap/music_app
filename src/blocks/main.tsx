@@ -1,29 +1,18 @@
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as React from 'react'
 import playlist from '../static/tracks'
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
 import { AuthorList, GenreList, YearList } from './suggests'
-const { useState } = React
+const { useState, useEffect } = React
 
 interface track { text: string, author: string, album: string, time: string, trackTitle: string }
-
-async function delay (): Promise<void> {
-  return await new Promise((resolve) => setTimeout(resolve, 5000))
-}
-delay().then(() => {
-  document.querySelectorAll('.loading').forEach(item => item.classList.remove('loading'))
-})
 
 function Nav (): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
   const handleToOpen = (): void => {
     isOpen ? setIsOpen(false) : setIsOpen(true)
   }
+
   return (
         <nav className='main__nav nav'>
             <div className='nav__logo logo'>
@@ -77,31 +66,32 @@ function RenderTrack (props: track): JSX.Element {
 }
 function CenterBlock (): JSX.Element {
   const [categoryName, setCategory] = useState('')
-  const [isOpenId, setIsOpen] = useState(0)
+  const [opennedId, setIsOpen] = useState(0)
   const suggest = (event: React.MouseEvent): void => {
     const target = event.target as HTMLElement
-
-    document.querySelectorAll('.filter__button').forEach(item => {
-      if (item.classList.contains('active')) {
-        item.classList.remove('active')
-      }
-    })
-
-    if (isOpenId.toString() === target.id) {
+    if (opennedId.toString() === target.id) {
       setIsOpen(0)
-      return setCategory('')
+      setCategory('')
+      return
     }
     setCategory(Object.keys(target.dataset)[0])
     setIsOpen(Number(target.id))
     target.classList.add('active')
   }
-  const ifOpenned = (categoryName: string): any => {
+  useEffect(() => {
+    document.querySelectorAll('.filter__button').forEach(item => {
+      if (item.classList.contains('active')) {
+        item.classList.remove('active')
+      }
+    })
+  })
+  const toOpenCategory = (categoryName: string): JSX.Element => {
     switch (categoryName) {
       case 'author':
         return <AuthorList/>
       case 'genre':
         return <GenreList />
-      case 'year':
+      default:
         return <YearList />
     }
   }
@@ -117,7 +107,7 @@ function CenterBlock (): JSX.Element {
             <div className="centerblock__filter filter">
                 <div className="filter__title">Искать по:</div>
                 <div className='filter__wrapper'>
-                    { isOpenId !== 0 ? ifOpenned(categoryName) : undefined }
+                    { opennedId !== 0 ? toOpenCategory(categoryName) : null }
                     <div className="filter__button button-author _btn-text" data-author='' id='1' onClick={suggest}>исполнителю</div>
                     <div className="filter__button button-year _btn-text" data-year='' id='2' onClick={suggest}>году выпуска</div>
                     <div className="filter__button button-genre _btn-text" data-genre='' id='3' onClick={suggest}>жанру</div>

@@ -347,6 +347,8 @@ input[type=radio] {
 
 
     &__annotation {
+        position: absolute;
+        top: calc(100% + 10px);
         width: 248px;
         height: 305px;
         background: #313131;

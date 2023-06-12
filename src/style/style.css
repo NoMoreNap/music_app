@@ -303,6 +303,8 @@ input[type=radio]:checked::after {
   align-items: center;
 }
 .filter__annotation {
+  position: absolute;
+  top: calc(100% + 10px);
   width: 248px;
   height: 305px;
   background: #313131;
