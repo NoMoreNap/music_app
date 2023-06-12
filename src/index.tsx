@@ -8,13 +8,10 @@ const root = ReactDOM.createRoot(
   document.querySelector('.wrapper') as HTMLElement
 )
 
-void fetch(location.href + 'static/tracks.json').then(async res => { return await res.json() }).then(res => {
-  window.res = res
-  root.render(
+root.render(
     <React.StrictMode>
       <Container/>
     </React.StrictMode>
-  )
-})
+)
 
 reportWebVitals()

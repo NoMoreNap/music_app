@@ -12,4 +12,5 @@ type track = responceTrack[]
 
 declare interface Window {
   res: track
+  loading: boolean
 }

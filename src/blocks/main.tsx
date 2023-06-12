@@ -1,23 +1,41 @@
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as React from 'react'
-// import playlist from './static/tracks'
+import playlist from '../static/tracks'
+import SimpleBar from 'simplebar-react'
+import 'simplebar-react/dist/simplebar.min.css'
+import { AuthorList, GenreList, YearList } from './suggests'
+const { useState } = React
 
 interface track { text: string, author: string, album: string, time: string, trackTitle: string }
+
+async function delay (): Promise<void> {
+  return await new Promise((resolve) => setTimeout(resolve, 5000))
+}
+delay().then(() => {
+  document.querySelectorAll('.loading').forEach(item => item.classList.remove('loading'))
+})
+
 function Nav (): JSX.Element {
+  const [isOpen, setIsOpen] = useState(false)
+  const handleToOpen = (): void => {
+    isOpen ? setIsOpen(false) : setIsOpen(true)
+  }
   return (
         <nav className='main__nav nav'>
             <div className='nav__logo logo'>
                 <img className="logo__image" src="img/logo.png" alt="logo"/>
             </div>
-            <div className="nav__burger burger">
+            <div className='nav__burger burger' onClick={handleToOpen}>
                 <span className="burger__line"></span>
                 <span className="burger__line"></span>
                 <span className="burger__line"></span>
             </div>
             <div className="nav__menu menu">
-                <ul className="menu__list">
+                <ul className={isOpen ? 'menu__list active' : 'menu__list'}>
                     <li className="menu__item"><a href="http://" className="menu__link">Главное</a></li>
                     <li className="menu__item"><a href="http://" className="menu__link">Мой плейлист</a></li>
                     <li className="menu__item"><a href="http://" className="menu__link">Войти</a></li>
@@ -29,25 +47,25 @@ function Nav (): JSX.Element {
 function RenderTrack (props: track): JSX.Element {
   const { text, author, album, time, trackTitle } = props
   return (
-            <div className="playlist__item">
-                <div className="playlist__track track">
+            <div className="playlist__item ">
+                <div className="playlist__track track ">
                     <div className="track__title">
-                        <div className="track__title-image">
+                        <div className='track__title-image loading'>
                             <svg className="track__title-svg" >
                                 <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
                             </svg>
                         </div>
-                        <div className="track__title-text">
+                        <div className="track__title-text loading">
                             <a className="track__title-link" href="http://">{text} <span className="track__title-span">{trackTitle}</span></a>
                         </div>
                     </div>
-                    <div className="track__author">
+                    <div className="track__author loading">
                         <a className="track__author-link" href="http://">{author}</a>
                     </div>
-                    <div className="track__album">
+                    <div className="track__album loading">
                         <a className="track__album-link" href="http://">{album}</a>
                     </div>
-                    <div className="track__time">
+                    <div className="track__time loading">
                         <svg className="track__time-svg" >
                             <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
                         </svg>
@@ -58,6 +76,35 @@ function RenderTrack (props: track): JSX.Element {
   )
 }
 function CenterBlock (): JSX.Element {
+  const [categoryName, setCategory] = useState('')
+  const [isOpenId, setIsOpen] = useState(0)
+  const suggest = (event: React.MouseEvent): void => {
+    const target = event.target as HTMLElement
+
+    document.querySelectorAll('.filter__button').forEach(item => {
+      if (item.classList.contains('active')) {
+        item.classList.remove('active')
+      }
+    })
+
+    if (isOpenId.toString() === target.id) {
+      setIsOpen(0)
+      return setCategory('')
+    }
+    setCategory(Object.keys(target.dataset)[0])
+    setIsOpen(Number(target.id))
+    target.classList.add('active')
+  }
+  const ifOpenned = (categoryName: string): any => {
+    switch (categoryName) {
+      case 'author':
+        return <AuthorList/>
+      case 'genre':
+        return <GenreList />
+      case 'year':
+        return <YearList />
+    }
+  }
   return (
         <div className='main__centerblock centerblock'>
             <div className="centerblock__search search">
@@ -69,9 +116,12 @@ function CenterBlock (): JSX.Element {
             <h2 className="centerblock__h2">Треки</h2>
             <div className="centerblock__filter filter">
                 <div className="filter__title">Искать по:</div>
-                <div className="filter__button button-author _btn-text">исполнителю</div>
-                <div className="filter__button button-year _btn-text">году выпуска</div>
-                <div className="filter__button button-genre _btn-text">жанру</div>
+                <div className='filter__wrapper'>
+                    { isOpenId !== 0 ? ifOpenned(categoryName) : undefined }
+                    <div className="filter__button button-author _btn-text" data-author='' id='1' onClick={suggest}>исполнителю</div>
+                    <div className="filter__button button-year _btn-text" data-year='' id='2' onClick={suggest}>году выпуска</div>
+                    <div className="filter__button button-genre _btn-text" data-genre='' id='3' onClick={suggest}>жанру</div>
+                </div>
             </div>
             <div className="centerblock__content">
                 <div className="content__title playlist-title">
@@ -85,13 +135,15 @@ function CenterBlock (): JSX.Element {
                     </div>
                 </div>
                 <div className="content__playlist playlist">
+                <SimpleBar style={{ maxHeight: '100%' } } scrollbarMaxSize={0} classNames={{ track: 'hidden', scrollbar: 'hidden', mask: 'hidden' }}>
                     {
-                        window.res.map((item: track) => {
+                        playlist.map((item: track) => {
                           return (
                             RenderTrack(item)
                           )
                         })
                     }
+                </SimpleBar>
                 </div>
             </div>
         </div>
@@ -104,23 +156,23 @@ function SlideBar (props: { name: string, avatar: string }): JSX.Element {
   return (
         <div className='main__sidebar sidebar'>
             <div className="sidebar__personal">
-                        <p className="sidebar__personal-name">{props.name}</p>
-                        <div className="sidebar__avatar" style={avatar}>
+                        <p className="sidebar__personal-name loading">{props.name}</p>
+                        <div className="sidebar__avatar loading" style={avatar}>
                         </div>
                     </div>
                     <div className="sidebar__block">
                         <div className="sidebar__list">
-                            <div className="sidebar__item">
+                            <div className="sidebar__item loading">
                                 <a className="sidebar__link" href="#">
                                     <img className="sidebar__img" src="img/playlist01.png" alt="day's playlist"/>
                                 </a>
                             </div>
-                            <div className="sidebar__item">
+                            <div className="sidebar__item loading">
                                 <a className="sidebar__link" href="#">
                                     <img className="sidebar__img" src="img/playlist02.png" alt="day's playlist"/>
                                 </a>
                             </div>
-                            <div className="sidebar__item">
+                            <div className="sidebar__item loading">
                                 <a className="sidebar__link" href="#">
                                     <img className="sidebar__img" src="img/playlist03.png" alt="day's playlist"/>
                                 </a>
