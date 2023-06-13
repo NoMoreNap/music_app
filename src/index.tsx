@@ -7,10 +7,11 @@ import reportWebVitals from './reportWebVitals'
 const root = ReactDOM.createRoot(
   document.querySelector('.wrapper') as HTMLElement
 )
+
 root.render(
-  <React.StrictMode>
-    <Container/>
-  </React.StrictMode>
+    <React.StrictMode>
+      <Container/>
+    </React.StrictMode>
 )
 
 reportWebVitals()
