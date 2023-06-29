@@ -3,7 +3,7 @@ import playlist from '../static/tracks'
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
 import { AuthorList, GenreList, YearList } from './suggests'
-const { useState, useEffect } = React
+const { useState } = React
 
 interface track { text: string, author: string, album: string, time: string, trackTitle: string }
 
@@ -78,13 +78,6 @@ function CenterBlock (): JSX.Element {
     setIsOpen(Number(target.id))
     target.classList.add('active')
   }
-  useEffect(() => {
-    document.querySelectorAll('.filter__button').forEach(item => {
-      if (item.classList.contains('active')) {
-        item.classList.remove('active')
-      }
-    })
-  })
   const toOpenCategory = (categoryName: string): JSX.Element => {
     switch (categoryName) {
       case 'author':
@@ -108,9 +101,9 @@ function CenterBlock (): JSX.Element {
                 <div className="filter__title">Искать по:</div>
                 <div className='filter__wrapper'>
                     { opennedId !== 0 ? toOpenCategory(categoryName) : null }
-                    <div className="filter__button button-author _btn-text" data-author='' id='1' onClick={suggest}>исполнителю</div>
-                    <div className="filter__button button-year _btn-text" data-year='' id='2' onClick={suggest}>году выпуска</div>
-                    <div className="filter__button button-genre _btn-text" data-genre='' id='3' onClick={suggest}>жанру</div>
+                    <div className={`filter__button button-author _btn-text ${categoryName === 'author' ? 'active' : ''}`} data-author='' id='1' onClick={suggest}>исполнителю</div>
+                    <div className={`filter__button button-year _btn-text ${categoryName === 'year' ? 'active' : ''}`} data-year='' id='2' onClick={suggest}>году выпуска</div>
+                    <div className={`filter__button button-genre _btn-text ${categoryName === 'genre' ? 'active' : ''}`} data-genre='' id='3' onClick={suggest}>жанру</div>
                 </div>
             </div>
             <div className="centerblock__content">
