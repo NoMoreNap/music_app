@@ -667,4 +667,35 @@ input[type=radio]:checked::after {
 }
 .volume__progress-line {
   width: 109px;
+}
+
+#icon-stop > *,
+#icon-prev > *,
+#icon-play > *,
+#icon-next > * {
+  transition: 0.1s fill ease, 0.1s fill ease;
+}
+
+#icon-stop:hover > *,
+#icon-prev:hover > *,
+#icon-play:hover > *,
+#icon-next:hover > * {
+  fill: #696969;
+}
+
+#icon-prev:hover > *,
+#icon-next:hover > * {
+  stroke: #696969;
+}
+
+#icon-stop:active > *,
+#icon-prev:active > *,
+#icon-play:active > *,
+#icon-next:active > * {
+  fill: #D9D9D9;
+}
+
+#icon-prev:active > *,
+#icon-next:active > * {
+  stroke: #D9D9D9;
 }/*# sourceMappingURL=style.css.map */

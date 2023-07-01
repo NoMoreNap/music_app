@@ -8,7 +8,6 @@
 *:after {
     box-sizing: border-box;
 }
-
 a,
 a:visited {
     text-decoration: none;
@@ -35,7 +34,7 @@ ul li {
     font-family: 'StratosSkyeng';
     src: local('StratosSkyeng'), local('StratosSkyeng'),
         url('../fonts/Stratos-Regular.woff2') format('woff2'),
-        url('../fonts/Stratos-Regular.woff') format('woff'),;
+        url('../fonts/Stratos-Regular.woff') format('woff'), ;
     font-weight: 400;
     font-style: normal;
 }
@@ -50,14 +49,16 @@ body {
     color: #FFFFFF;
 
 }
+
 @keyframes load {
     to {
-      background-position-x: -200%;
+        background-position-x: -200%;
     }
-  }
+}
 
 .loading {
     position: relative;
+
     &::after {
         content: '';
         position: absolute;
@@ -194,7 +195,7 @@ body {
 }
 
 .burger {
-    
+
 
     &__line {
         display: inline-block;
@@ -213,6 +214,7 @@ body {
         transform: translateY(-100%);
 
     }
+
     .active {
         transform: translateY(0);
     }
@@ -296,16 +298,19 @@ body {
         }
     }
 }
+
 .simplebar-track {
     background-color: #4B4949;
     width: 4px !important;
     border-radius: 10px;
 }
+
 .simplebar-scrollbar {
     background-color: #FFFFFF;
     border-radius: 10px;
     width: 4px;
 }
+
 .hidden {
     z-index: -1;
 }
@@ -321,24 +326,26 @@ input[type=radio] {
     width: 18px;
     height: 18px;
     border-radius: 50%;
+
     &:active {
-      transform: scale(.6);
+        transform: scale(.6);
     }
-  }
-  input[type=radio]:checked::after {
+}
+
+input[type=radio]:checked::after {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     content: '';
     background-color: white;
     width: 10.8px;
     height: 10.8px;
     border-radius: 50%;
-  }
+}
 
 .filter {
-    &__wrapper {     
+    &__wrapper {
         position: relative;
         display: flex;
         flex-direction: row;
@@ -361,6 +368,7 @@ input[type=radio] {
             display: flex;
             flex-direction: column;
             gap: 28px;
+
             .active {
                 color: #AD61FF;
                 text-decoration: underline;
@@ -374,8 +382,9 @@ input[type=radio] {
             line-height: 24px;
             cursor: pointer;
             transition: .3s;
+
             &:hover {
-                color:#D9B6FF
+                color: #D9B6FF
             }
 
         }
@@ -403,11 +412,13 @@ input[type=radio] {
         }
 
     }
+
     .active {
         color: #AD61FF;
         border-color: #AD61FF;
 
     }
+
     .year {
         background: #313131;
         border-radius: 12px;
@@ -417,17 +428,19 @@ input[type=radio] {
         font-size: 20px;
         line-height: 24px;
         color: #FFFFFF;
-        gap:  28px;
-        & > div {
+        gap: 28px;
+
+        &>div {
             display: flex;
             width: fit-content;
             align-items: center;
             gap: 10px;
-            & > label {
+
+            &>label {
                 white-space: nowrap
             }
         }
-        
+
 
     }
 
@@ -482,6 +495,7 @@ input[type=radio] {
 .col03 {
     width: 245px;
 }
+
 .col04 {
     width: 60px;
     text-align: end;
@@ -494,7 +508,7 @@ input[type=radio] {
         width: 100%;
         display: block;
         margin-bottom: 12px;
-        
+
     }
 
     &__track {
@@ -631,7 +645,7 @@ input[type=radio] {
         background-color: #313131;
         border-radius: 50%;
         overflow: hidden;
-       
+
     }
 
     &__block {
@@ -678,9 +692,6 @@ input[type=radio] {
     background: rgba(28, 28, 28, 1);
 }
 
-.player {
-
-}
 
 .track-play {
 
@@ -688,7 +699,7 @@ input[type=radio] {
         width: auto;
         display: grid;
         grid-template-columns: auto 1fr;
-        grid-template-areas: 'image author''image album';
+        grid-template-areas: 'image author' 'image album';
         align-items: center;
     }
 
@@ -800,4 +811,34 @@ input[type=radio] {
     &__progress-line {
         width: 109px;
     }
+}
+
+#icon-stop > *,
+#icon-prev > *,
+#icon-play > *,
+#icon-next > * {
+    transition: .1s fill ease, .1s fill ease;
+}
+
+#icon-stop:hover > *,
+#icon-prev:hover > *,
+#icon-play:hover > *,
+#icon-next:hover > * {
+    fill: #696969;
+}
+
+#icon-prev:hover > *,
+#icon-next:hover > *  {
+    stroke: #696969;
+}
+#icon-stop:active > *,
+#icon-prev:active > *,
+#icon-play:active > *,
+#icon-next:active > * {
+    fill: #D9D9D9;
+}
+
+#icon-prev:active > *,
+#icon-next:active > *  {
+    stroke: #D9D9D9;
 }
