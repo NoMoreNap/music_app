@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './style/style.css'
-import Container from './container'
+import { BrowserRouter } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
+import { AppRoutes } from './routes'
 
 const root = ReactDOM.createRoot(
   document.querySelector('.wrapper') as HTMLElement
@@ -10,7 +11,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-      <Container/>
+      <BrowserRouter>
+        <AppRoutes/>
+      </BrowserRouter>
     </React.StrictMode>
 )
 
