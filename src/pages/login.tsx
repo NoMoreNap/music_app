@@ -3,27 +3,20 @@
 import * as React from 'react'
 import { Navigate } from 'react-router-dom'
 import s from './login.module.css'
+import { loginApi } from '../backend/login'
+import { signUpApi } from '../backend/signup'
 const { useState, useEffect } = React
 
 export const LoginPage = (): JSX.Element => {
   const md5 = require('md5')
 
-  const [isLogin, setLogin] = useState(false)
   const [isSignup, setSignup] = useState(false)
 
   const logIn = (e: React.MouseEvent): void => {
     e.preventDefault()
-    const login = md5((document.querySelector('#login') as HTMLInputElement).value)
+    const login = (document.querySelector('#login') as HTMLInputElement).value
     const pass = md5((document.querySelector('#pass') as HTMLInputElement).value)
-    const btns = document.querySelectorAll('button')
-    enable(btns, true)
-    fetch(`${window.location.origin}/req/userdata.json`).then(async res => await res.json()).then(res => {
-      // console.log(res.pass, pass, res.login, login)
-      if (res.pass === pass && res.login === login) {
-        hasher(res.login, res.pass)
-        setLogin(true)
-      } else enable(btns, false)
-    })
+    loginApi(getFormData(login, pass))
   }
 
   const signUp = (e: React.MouseEvent): void => {
@@ -33,11 +26,11 @@ export const LoginPage = (): JSX.Element => {
       return
     }
     const login = (document.querySelector('#login') as HTMLInputElement).value
-    const pass = (document.querySelector('#pass') as HTMLInputElement).value
-    const rPass = (document.querySelector('#repeat_pass') as HTMLInputElement).value
+    const pass = md5((document.querySelector('#pass') as HTMLInputElement).value)
+    const rPass = md5((document.querySelector('#repeat_pass') as HTMLInputElement).value)
     if (login && (pass === rPass)) {
-      hasher(login, pass)
-      setLogin(true)
+      console.log('in')
+      signUpApi(getFormData(login, pass))
     }
   }
 
@@ -50,22 +43,12 @@ export const LoginPage = (): JSX.Element => {
     }
     return output
   }
-  function enable (arr: NodeListOf<HTMLButtonElement>, isE: boolean): void {
-    if (isE) {
-      arr.forEach(el => {
-        el.setAttribute('disabled', '')
-        el.classList.add('loading')
-      })
-    } else {
-      arr.forEach(el => {
-        el.removeAttribute('disabled')
-        el.classList.remove('loading')
-      })
-    }
-  }
-  function hasher (log: string, pass: string): void {
-    const token = md5([md5(log), md5(pass), String(Date.now() + Math.floor(Math.random() * (10000000 - 1)))].join(''))
-    localStorage.setItem('token', token)
+
+  function getFormData (login: string, pass: string): FormData {
+    const formData = new FormData()
+    formData.append('login', login)
+    formData.append('pass', pass)
+    return formData
   }
 
   useEffect(() => {
@@ -84,7 +67,6 @@ export const LoginPage = (): JSX.Element => {
 
   return (
     <div className={s.main}>
-        {isLogin ? <Navigate to='/' replace={true}/> : ''}
         {localStorage.getItem('token') ? <Navigate to='/' replace={true}/> : ''}
         <section className={s.wrapper}>
           <img src="/img/logo_dark.svg" alt="logo" />

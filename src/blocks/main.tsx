@@ -9,8 +9,20 @@ interface track { text: string, author: string, album: string, time: string, tra
 
 function Nav (): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
+  const [isLogin, setIsLogin] = useState(true)
+
   const handleToOpen = (): void => {
     isOpen ? setIsOpen(false) : setIsOpen(true)
+  }
+
+  const loginBtn = (): void => {
+    if (isLogin) {
+      localStorage.removeItem('token')
+      setIsLogin(false)
+      location.reload()
+    } else {
+      window.location.href = `${window.location.origin}/login`
+    }
   }
 
   return (
@@ -27,7 +39,7 @@ function Nav (): JSX.Element {
                 <ul className={isOpen ? 'menu__list active' : 'menu__list'}>
                     <li className="menu__item"><a href="http://" className="menu__link">Главное</a></li>
                     <li className="menu__item"><a href="http://" className="menu__link">Мой плейлист</a></li>
-                    <li className="menu__item"><a href="http://" className="menu__link">Войти</a></li>
+                    <li className="menu__item"><a onClick={loginBtn} href="http://" className="menu__link">{isLogin ? 'Выйти' : 'Войти'}</a></li>
                 </ul>
             </div>
         </nav>
