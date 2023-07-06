@@ -15,7 +15,7 @@ export const LoginPage = (): JSX.Element => {
   const logIn = (e: React.MouseEvent): void => {
     e.preventDefault()
     const login = (document.querySelector('#login') as HTMLInputElement).value
-    const pass = md5((document.querySelector('#pass') as HTMLInputElement).value)
+    const pass = (document.querySelector('#pass') as HTMLInputElement).value
     loginApi(getFormData(login, pass))
   }
 
@@ -26,10 +26,9 @@ export const LoginPage = (): JSX.Element => {
       return
     }
     const login = (document.querySelector('#login') as HTMLInputElement).value
-    const pass = md5((document.querySelector('#pass') as HTMLInputElement).value)
-    const rPass = md5((document.querySelector('#repeat_pass') as HTMLInputElement).value)
+    const pass = (document.querySelector('#pass') as HTMLInputElement).value
+    const rPass = (document.querySelector('#repeat_pass') as HTMLInputElement).value
     if (login && (pass === rPass)) {
-      console.log('in')
       signUpApi(getFormData(login, pass))
     }
   }

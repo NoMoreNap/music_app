@@ -3,6 +3,7 @@ import playlist from '../static/tracks'
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
 import { AuthorList, GenreList, YearList } from './suggests'
+import { useThemeContext } from '../effects/theme'
 const { useState } = React
 
 interface track { text: string, author: string, album: string, time: string, trackTitle: string }
@@ -10,6 +11,7 @@ interface track { text: string, author: string, album: string, time: string, tra
 function Nav (): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
   const [isLogin, setIsLogin] = useState(true)
+  const { theme, toggle } = useThemeContext()
 
   const handleToOpen = (): void => {
     isOpen ? setIsOpen(false) : setIsOpen(true)
@@ -26,20 +28,25 @@ function Nav (): JSX.Element {
   }
 
   return (
-        <nav className='main__nav nav'>
+        <nav className={`main__nav nav ${theme === 'light' ? 'light_nav' : ''}`}>
             <div className='nav__logo logo'>
-                <img className="logo__image" src="img/logo.png" alt="logo"/>
+                <img className="logo__image" src={`${theme === 'light' ? 'img/logo_dark.svg' : 'img/logo.png'}`} alt="logo"/>
             </div>
             <div className='nav__burger burger' onClick={handleToOpen}>
-                <span className="burger__line"></span>
-                <span className="burger__line"></span>
-                <span className="burger__line"></span>
+                <span className={`burger__line ${theme === 'light' ? 'light_burger' : ''}`}></span>
+                <span className={`burger__line ${theme === 'light' ? 'light_burger' : ''}`}></span>
+                <span className={`burger__line ${theme === 'light' ? 'light_burger' : ''}`}></span>
             </div>
             <div className="nav__menu menu">
                 <ul className={isOpen ? 'menu__list active' : 'menu__list'}>
-                    <li className="menu__item"><a href="http://" className="menu__link">Главное</a></li>
-                    <li className="menu__item"><a href="http://" className="menu__link">Мой плейлист</a></li>
-                    <li className="menu__item"><a onClick={loginBtn} href="http://" className="menu__link">{isLogin ? 'Выйти' : 'Войти'}</a></li>
+                    <li className="menu__item"><a href="http://" className={`menu__link ${theme === 'light' ? 'light_text' : ''}`}>Главное</a></li>
+                    <li className="menu__item"><a href="http://" className={`menu__link ${theme === 'light' ? 'light_text' : ''}`}>Мой плейлист</a></li>
+                    <li className="menu__item"><a onClick={loginBtn} className={`menu__link ${theme === 'light' ? 'light_text' : ''}`}>{isLogin ? 'Выйти' : 'Войти'}</a></li>
+                    <li className="menu__item"><span onClick={toggle} className="menu__link">
+                        <svg className="menu__item-theme" >
+                            <use xlinkHref={`img/icon/sprite.svg#icon-${theme === 'dark' ? 'moon' : 'sun'}`}></use>
+                        </svg></span>
+                        </li>
                 </ul>
             </div>
         </nav>
@@ -47,30 +54,32 @@ function Nav (): JSX.Element {
 }
 function RenderTrack (props: track): JSX.Element {
   const { text, author, album, time, trackTitle } = props
+  const { theme } = useThemeContext()
+
   return (
             <div className="playlist__item ">
                 <div className="playlist__track track ">
                     <div className="track__title">
-                        <div className='track__title-image loading'>
+                        <div className={`track__title-image ${theme === 'light' ? 'light_note' : ''}`}>
                             <svg className="track__title-svg" >
-                                <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+                                <use xlinkHref={`img/icon/sprite.svg#icon-note${theme === 'light' ? '_light' : ''}`}></use>
                             </svg>
                         </div>
                         <div className="track__title-text loading">
-                            <a className="track__title-link" href="http://">{text} <span className="track__title-span">{trackTitle}</span></a>
+                            <a className={`track__title-link ${theme === 'light' ? 'light_text' : ''}`} href="http://">{text} <span className="track__title-span">{trackTitle}</span></a>
                         </div>
                     </div>
                     <div className="track__author loading">
-                        <a className="track__author-link" href="http://">{author}</a>
+                        <a className={`track__author-link ${theme === 'light' ? 'light_text' : ''}`} href="http://">{author}</a>
                     </div>
                     <div className="track__album loading">
-                        <a className="track__album-link" href="http://">{album}</a>
+                        <a className={`track__album-link ${theme === 'light' ? 'light_text' : ''}`} href="http://">{album}</a>
                     </div>
                     <div className="track__time loading">
                         <svg className="track__time-svg" >
                             <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
                         </svg>
-                    <span className="track__time-text">{time}</span>
+                    <span className={`track__time-text ${theme === 'light' ? 'light_text' : ''}`}>{time}</span>
                     </div>
                 </div>
             </div>
@@ -79,6 +88,8 @@ function RenderTrack (props: track): JSX.Element {
 function CenterBlock (): JSX.Element {
   const [categoryName, setCategory] = useState('')
   const [opennedId, setIsOpen] = useState(0)
+  const { theme } = useThemeContext()
+
   const suggest = (event: React.MouseEvent): void => {
     const target = event.target as HTMLElement
     if (opennedId.toString() === target.id) {
@@ -100,11 +111,12 @@ function CenterBlock (): JSX.Element {
         return <YearList />
     }
   }
+  console.log(theme)
   return (
-        <div className='main__centerblock centerblock'>
+        <div className={`main__centerblock centerblock ${theme === 'light' ? 'light_center' : ''}`}>
             <div className="centerblock__search search">
                 <svg className="search__svg">
-                    <use xlinkHref="img/icon/sprite.svg#icon-search"></use>
+                    <use xlinkHref={`img/icon/sprite.svg#icon-search${theme === 'light' ? '_black' : ''}`}></use>
                 </svg>
                 <input className="search__text" type="search" placeholder="Поиск" name="search"/>
             </div>
@@ -113,9 +125,9 @@ function CenterBlock (): JSX.Element {
                 <div className="filter__title">Искать по:</div>
                 <div className='filter__wrapper'>
                     { opennedId !== 0 ? toOpenCategory(categoryName) : null }
-                    <div className={`filter__button button-author _btn-text ${categoryName === 'author' ? 'active' : ''}`} data-author='' id='1' onClick={suggest}>исполнителю</div>
-                    <div className={`filter__button button-year _btn-text ${categoryName === 'year' ? 'active' : ''}`} data-year='' id='2' onClick={suggest}>году выпуска</div>
-                    <div className={`filter__button button-genre _btn-text ${categoryName === 'genre' ? 'active' : ''}`} data-genre='' id='3' onClick={suggest}>жанру</div>
+                    <div className={`filter__button button-author _btn-text ${categoryName === 'author' ? 'active' : ''} ${theme === 'light' ? 'filter_button-light' : ''}`} data-author='' id='1' onClick={suggest}>исполнителю</div>
+                    <div className={`filter__button button-year _btn-text ${categoryName === 'year' ? 'active' : ''} ${theme === 'light' ? 'filter_button-light' : ''}`} data-year='' id='2' onClick={suggest}>году выпуска</div>
+                    <div className={`filter__button button-genre _btn-text ${categoryName === 'genre' ? 'active' : ''} ${theme === 'light' ? 'filter_button-light' : ''}`} data-genre='' id='3' onClick={suggest}>жанру</div>
                 </div>
             </div>
             <div className="centerblock__content">
@@ -145,13 +157,14 @@ function CenterBlock (): JSX.Element {
   )
 }
 function SlideBar (props: { name: string, avatar: string }): JSX.Element {
+  const { theme } = useThemeContext()
   const avatar = {
     backgroundImage: `url(${props.avatar})`
   }
   return (
-        <div className='main__sidebar sidebar'>
+        <div className={`main__sidebar sidebar ${theme === 'light' ? 'light_slidebar' : ''}`}>
             <div className="sidebar__personal">
-                        <p className="sidebar__personal-name loading">{props.name}</p>
+                        <p className={`sidebar__personal-name ${theme === 'light' ? 'light_text' : ''}`}>{props.name}</p>
                         <div className="sidebar__avatar loading" style={avatar}>
                         </div>
                     </div>

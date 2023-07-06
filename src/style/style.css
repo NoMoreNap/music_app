@@ -181,6 +181,13 @@ body {
   padding: 5px 0;
   margin-bottom: 16px;
 }
+.menu__item-theme {
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  max-height: -moz-fit-content;
+  max-height: fit-content;
+  cursor: pointer;
+}
 .menu__link {
   color: #FFFFFF;
   font-weight: 400;
@@ -698,4 +705,42 @@ input[type=radio]:checked::after {
 #icon-prev:active > *,
 #icon-next:active > * {
   stroke: #D9D9D9;
+}
+
+.light_nav {
+  background: #F6F5F3;
+}
+.light_burger {
+  background-color: #000000;
+}
+.light_text {
+  color: #000000;
+}
+.light_center {
+  color: #000000 !important;
+  background-color: #fff !important;
+}
+.light_center ::-moz-placeholder {
+  color: #000000 !important;
+}
+.light_center ::placeholder {
+  color: #000000 !important;
+}
+.light_note {
+  background-color: #F6F4F4;
+}
+.light_slidebar {
+  background-color: white;
+}
+
+.filter_button-light {
+  border: 1px solid #000000;
+}
+.filter_button-light:hover {
+  color: #AD61FF;
+  border-color: #AD61FF;
+}
+.filter_button-light:active {
+  color: #D9B6FF;
+  border-color: #D9B6FF;
 }/*# sourceMappingURL=style.css.map */
