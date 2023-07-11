@@ -11,11 +11,11 @@ export const LoginPage = (): JSX.Element => {
   const md5 = require('md5')
 
   const [isSignup, setSignup] = useState(false)
+  const [login, setlogin] = useState('')
+  const [pass, setPass] = useState('')
 
   const logIn = (e: React.MouseEvent): void => {
     e.preventDefault()
-    const login = (document.querySelector('#login') as HTMLInputElement).value
-    const pass = md5((document.querySelector('#pass') as HTMLInputElement).value)
     loginApi(getFormData(login, pass))
   }
 
@@ -25,11 +25,8 @@ export const LoginPage = (): JSX.Element => {
       setSignup(true)
       return
     }
-    const login = (document.querySelector('#login') as HTMLInputElement).value
-    const pass = md5((document.querySelector('#pass') as HTMLInputElement).value)
-    const rPass = md5((document.querySelector('#repeat_pass') as HTMLInputElement).value)
+    const rPass = (document.querySelector('#repeat_pass') as HTMLInputElement).value
     if (login && (pass === rPass)) {
-      console.log('in')
       signUpApi(getFormData(login, pass))
     }
   }
@@ -72,8 +69,8 @@ export const LoginPage = (): JSX.Element => {
           <img src="/img/logo_dark.svg" alt="logo" />
           <form className={s.form}>
             <div className={s.inputs}>
-              <input className={s.input} id='login' type="text" placeholder='Логин'/>
-              <input className={s.input} id='pass' type="password" placeholder='Пароль'/>
+              <input className={s.input} id='login' onInput={(event: React.ChangeEvent<HTMLInputElement>): void => { setlogin(event.target.value) }} type="text" placeholder='Логин'/>
+              <input className={s.input} id='pass' onInput={(event: React.ChangeEvent<HTMLInputElement>): void => { setPass(event.target.value) }} type="password" placeholder='Пароль'/>
               {isSignup ? <input className={s.input} id='repeat_pass' type='password' placeholder='Повторите пароль'></input> : ''}
             </div>
             <div className={s.btns}>

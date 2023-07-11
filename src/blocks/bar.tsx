@@ -1,6 +1,6 @@
 
 import * as React from 'react'
-import { text } from 'stream/consumers'
+import { useThemeContext } from '../effects/theme'
 import bar from './styles/bar.module.css'
 import player from './styles/player.module.css'
 const { useRef, useState, useEffect } = React
@@ -13,6 +13,7 @@ function BarContent (): React.ReactElement {
   const [isPlay, setPlay] = useState(false)
   const [isHoverProgress, setHover] = useState('')
   const [left, setLeft] = useState(0)
+  const { theme } = useThemeContext()
 
   function playClickHandler (): void {
     if (isPlay) {
@@ -104,10 +105,10 @@ function BarContent (): React.ReactElement {
     }
   })
   return (
-    <div className={bar.content}>
+    <div className={`${bar.content}  ${theme === 'light' ? bar.blockLight : ''}`}>
             {isHoverProgress ? <SvgUnion text={isHoverProgress}/> : ''}
             <div className={bar.wrapper}>
-                <input id='progress' type='range' min='0' max='100' ref={inviseLine} onClick={progressBarClick} className={bar.progress}/>
+                <input id='progress' type='range' min='0' max='100' ref={inviseLine} onClick={progressBarClick} className={`${bar.progress} ${theme === 'light' ? bar.progressLight : ''}`}/>
                 <label htmlFor='progress' ref={progressLine} className={bar.active}></label>
             </div>
             <div className={bar.block}>
@@ -137,17 +138,17 @@ function BarContent (): React.ReactElement {
                             </div>
                             <div className={`${player.trackPlay} track-play`}>
                                 <div className="track-play__contain">
-                                    <div className="track-play__image loading">
+                                    <div className={`track-play__image ${theme === 'light' ? 'light_note' : ''}`}>
                                         <svg className="track-play__svg">
-                                            <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+                                            <use xlinkHref={`img/icon/sprite.svg#icon-note${theme === 'light' ? '_light' : ''}`}></use>
                                         </svg>
                                     </div>
 
                                     <div className="track-play__author loading">
-                                        <a className="track-play__author-link" href="http://">Ты та</a>
+                                        <a className={`track-play__author-link ${theme === 'light' ? 'light_text' : ''}`} href="http://">Ты та</a>
                                     </div>
                                     <div className="track-play__album loading">
-                                        <a className="track-play__album-link" href="http://">Баста</a>
+                                        <a className={`track-play__album-link ${theme === 'light' ? 'light_text' : ''}`} href="http://">Баста</a>
                                     </div>
                                 </div>
 
@@ -169,7 +170,7 @@ function BarContent (): React.ReactElement {
                            <div className="volume__content">
                                 <div className="volume__image">
                                     <svg className="volume__svg">
-                                        <use xlinkHref="img/icon/sprite.svg#icon-volume"></use>
+                                        <use xlinkHref={`img/icon/sprite.svg#icon-volume${theme === 'light' ? '_light' : ''}`}></use>
                                     </svg>
                                 </div>
                                 <div className="volume__progress _btn">
